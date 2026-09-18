@@ -1,0 +1,139 @@
+<div class="container mt-4">
+
+  <!-- Header -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+
+    <h2>
+      Designations
+    </h2>
+
+    <a
+      routerLink="/designations/add"
+      class="btn btn-primary"
+    >
+      <i class="bi bi-plus-lg"></i>
+      Add Designation
+    </a>
+
+  </div>
+
+
+  <!-- Table -->
+  <div class="card shadow">
+
+    <div class="card-body">
+
+      <div class="table-responsive">
+
+        <table class="table table-hover align-middle">
+
+          <thead class="table-dark">
+
+            <tr>
+
+              <th>#</th>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th>Actions</th>
+
+            </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for (
+              designation of designations;
+              track designation._id;
+              let i = $index
+            ) {
+
+              <tr>
+
+                <td>
+                  {{ i + 1 }}
+                </td>
+
+                <td>
+                  <strong>
+                    {{ designation.name }}
+                  </strong>
+                </td>
+
+                <td>
+                  {{ designation.description }}
+                </td>
+
+                <td>
+
+                  <span
+                    class="badge"
+                    [class.bg-success]="
+                      designation.status === 'Active'
+                    "
+                    [class.bg-danger]="
+                      designation.status !== 'Active'
+                    "
+                  >
+                    {{ designation.status }}
+                  </span>
+
+                </td>
+
+                <td>
+
+                  <a
+                    [routerLink]="[
+                      '/designations/edit',
+                      designation._id
+                    ]"
+                    class="btn btn-sm btn-warning me-2"
+                  >
+                    <i class="bi bi-pencil"></i>
+                    Edit
+                  </a>
+
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    (click)="
+                      deleteDesignation(designation._id)
+                    "
+                  >
+                    <i class="bi bi-trash"></i>
+                    Delete
+                  </button>
+
+                </td>
+
+              </tr>
+
+            }
+
+            @if (designations.length === 0) {
+
+              <tr>
+
+                <td
+                  colspan="5"
+                  class="text-center py-4"
+                >
+                  No designations found.
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
