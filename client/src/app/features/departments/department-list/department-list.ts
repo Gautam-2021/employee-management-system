@@ -21,7 +21,7 @@ export class DepartmentList
   implements OnInit {
 
   departments: any[] = [];
-
+role = localStorage.getItem('role');
   constructor(
     private departmentService: Department
   ) {}

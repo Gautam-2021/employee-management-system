@@ -3,11 +3,27 @@ const Employee = require("../models/employee.model");
 // Get all employees
 const getEmployees = async (req, res) => {
     try {
-        const employees = await Employee.find();
+
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 10;
+
+        const skip = (page - 1) * limit;
+
+        const total = await Employee.countDocuments();
+
+        const employees = await Employee.find()
+            .populate("department", "name")
+            .populate("designation", "name")
+            .skip(skip)
+            .limit(limit)
+            .sort({ createdAt: -1 });
 
         res.status(200).json({
             success: true,
             count: employees.length,
+            total,
+            page,
+            pages: Math.ceil(total / limit),
             data: employees
         });
 

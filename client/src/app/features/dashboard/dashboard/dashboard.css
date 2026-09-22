@@ -1,0 +1,110 @@
+
+.dashboard-card {
+  border: none;
+  border-radius: 12px;
+  transition: transform 0.2s ease;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-3px);
+}
+
+.icon-box {
+  width: 50px;
+  height: 50px;
+
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: white;
+
+  font-size: 22px;
+}
+
+.card {
+  border: none;
+  border-radius: 12px;
+}
+
+.card-header {
+  border-bottom: 1px solid #eee;
+  padding: 16px 20px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.progress {
+  height: 7px;
+  border-radius: 10px;
+}
+
+.progress-bar {
+  border-radius: 10px;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #e9ecef;
+
+  font-weight: 600;
+}
+
+.quick-action {
+  display: flex;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 15px;
+
+  border: 1px solid #dee2e6;
+
+  border-radius: 10px;
+
+  text-decoration: none;
+
+  color: inherit;
+
+  transition: all 0.2s ease;
+}
+
+.quick-action:hover {
+  background-color: #f8f9fa;
+  border-color: #0d6efd;
+}
+
+.quick-action > i {
+  font-size: 25px;
+  color: #0d6efd;
+}
+
+.quick-action strong {
+  display: block;
+}
+
+.quick-action small {
+  display: block;
+  color: #6c757d;
+  margin-top: 3px;
+}
+
+.table th {
+  white-space: nowrap;
+}
+
+.table td {
+  vertical-align: middle;
+}

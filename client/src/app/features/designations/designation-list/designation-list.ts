@@ -12,7 +12,7 @@ import { Designation } from '../../../core/services/designation';
 export class DesignationList implements OnInit {
 
   designations: any[] = [];
-
+role = localStorage.getItem('role');
   constructor(
     private designationService: Designation
   ) {}

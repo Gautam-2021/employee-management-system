@@ -11,15 +11,13 @@ export class Employee  {
 
   constructor(private http: HttpClient) {}
 
-  getEmployees() {
+  getEmployees(page: number = 1, limit: number = 10) {
+  return this.http.get(
+    `${this.apiUrl}?page=${page}&limit=${limit}`
+  );
+}
 
-    return this.http.get<any[]>(
-      this.apiUrl
-    );
-
-  }
-
-  getEmployee(id: string) {
+  getEmployeeById(id: string) {
 
     return this.http.get<any>(
       `${this.apiUrl}/${id}`

@@ -11,6 +11,7 @@ import { EmployeeList } from './features/employees/employee-list/employee-list';
 import { EmployeeForm } from './features/employees/employee-form/employee-form';
 import { EmployeeDetail } from './features/employees/employee-detail/employee-detail';
 import { Test } from './utils/test/test/test';
+import { roleGuard } from './core/guards/role-guard';
 
 export const routes: Routes = [
 
@@ -48,12 +49,14 @@ export const routes: Routes = [
 
       {
         path: 'add',
-        component: DepartmentForm
+        component: DepartmentForm,
+        canActivate: [ roleGuard(['admin', 'hr']) ]
       },
 
       {
         path: 'edit/:id',
-        component: DepartmentForm
+        component: DepartmentForm,
+        canActivate: [ roleGuard(['admin', 'hr']) ]
       }
 
     ]
@@ -71,12 +74,14 @@ export const routes: Routes = [
 
       {
         path: 'add',
-        component: DesignationForm
+        component: DesignationForm,
+        canActivate: [ roleGuard(['admin', 'hr']) ]
       },
 
       {
         path: 'edit/:id',
-        component: DesignationForm
+        component: DesignationForm,
+        canActivate: [ roleGuard(['admin', 'hr']) ]
       }
 
     ]
@@ -94,12 +99,14 @@ export const routes: Routes = [
 
       {
         path: 'add',
-        component: EmployeeForm
+        component: EmployeeForm,
+        canActivate: [ roleGuard(['admin', 'hr']) ]
       },
 
       {
         path: 'edit/:id',
-        component: EmployeeForm
+        component: EmployeeForm,
+        canActivate: [ roleGuard(['admin', 'hr']) ]
       },
 
       {

@@ -1,39 +1,569 @@
-<div class="container mt-4">
 
-  <h2 class="mb-4">Employee Dashboard</h2>
+<div class="container-fluid mt-4">
 
-  <div class="row g-4">
+  <!-- Header -->
 
-    <!-- Total -->
-    <div class="col-md-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5>Total Employees</h5>
-          <h2>{{ totalEmployees }}</h2>
-        </div>
-      </div>
+  <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <div>
+
+      <h2 class="fw-bold mb-1">
+        Dashboard
+      </h2>
+
+      <p class="text-muted mb-0">
+        Employee Management System
+      </p>
+
     </div>
 
-    <!-- Active -->
-    <div class="col-md-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5>Active Employees</h5>
-          <h2>{{ activeEmployees }}</h2>
-        </div>
-      </div>
-    </div>
+    <div class="d-flex gap-2">
 
-    <!-- Inactive -->
-    <div class="col-md-4">
-      <div class="card shadow-sm">
-        <div class="card-body">
-          <h5>Inactive Employees</h5>
-          <h2>{{ inactiveEmployees }}</h2>
-        </div>
-      </div>
+      <!-- <a
+        routerLink="/employees/add"
+        class="btn btn-primary"
+      >
+        <i class="bi bi-person-plus me-1"></i>
+        Add Employee
+      </a> -->
+          @if (role === 'admin' || role === 'hr') { <a routerLink="/employees/add" class="btn btn-primary" > <i class="bi bi-person-plus"></i> Add Employee </a> }
+
+
     </div>
 
   </div>
+
+
+  <!-- Loading -->
+
+  @if (loading) {
+
+    <div class="text-center py-5">
+
+      <div
+        class="spinner-border text-primary"
+        role="status"
+      ></div>
+
+      <p class="text-muted mt-2">
+        Loading dashboard...
+      </p>
+
+    </div>
+
+  }
+
+
+  @if (!loading) {
+
+    <!-- Statistics -->
+
+    <div class="row g-4 mb-4">
+
+      <!-- Total Employees -->
+
+      <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card shadow-sm">
+
+          <div class="card-body">
+
+            <div class="d-flex justify-content-between">
+
+              <div>
+
+                <p class="text-muted mb-1">
+                  Total Employees
+                </p>
+
+                <h2 class="fw-bold mb-0">
+                  {{ totalEmployees }}
+                </h2>
+
+              </div>
+
+              <div class="icon-box bg-primary">
+
+                <i class="bi bi-people"></i>
+
+              </div>
+
+            </div>
+
+            <a
+              routerLink="/employees"
+              class="small text-decoration-none"
+            >
+              View employees →
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Active Employees -->
+
+      <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card shadow-sm">
+
+          <div class="card-body">
+
+            <div class="d-flex justify-content-between">
+
+              <div>
+
+                <p class="text-muted mb-1">
+                  Active Employees
+                </p>
+
+                <h2 class="fw-bold mb-0">
+                  {{ activeEmployees }}
+                </h2>
+
+              </div>
+
+              <div class="icon-box bg-success">
+
+                <i class="bi bi-person-check"></i>
+
+              </div>
+
+            </div>
+
+            <span class="small text-success">
+              Currently active
+            </span>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Departments -->
+
+      <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card shadow-sm">
+
+          <div class="card-body">
+
+            <div class="d-flex justify-content-between">
+
+              <div>
+
+                <p class="text-muted mb-1">
+                  Departments
+                </p>
+
+                <h2 class="fw-bold mb-0">
+                  {{ totalDepartments }}
+                </h2>
+
+              </div>
+
+              <div class="icon-box bg-warning">
+
+                <i class="bi bi-building"></i>
+
+              </div>
+
+            </div>
+
+            <a
+              routerLink="/departments"
+              class="small text-decoration-none"
+            >
+              View departments →
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Designations -->
+
+      <div class="col-xl-3 col-md-6">
+
+        <div class="card dashboard-card shadow-sm">
+
+          <div class="card-body">
+
+            <div class="d-flex justify-content-between">
+
+              <div>
+
+                <p class="text-muted mb-1">
+                  Designations
+                </p>
+
+                <h2 class="fw-bold mb-0">
+                  {{ totalDesignations }}
+                </h2>
+
+              </div>
+
+              <div class="icon-box bg-info">
+
+                <i class="bi bi-person-badge"></i>
+
+              </div>
+
+            </div>
+
+            <a
+              routerLink="/designations"
+              class="small text-decoration-none"
+            >
+              View designations →
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Main Content -->
+
+    <div class="row g-4">
+
+
+      <!-- Department Statistics -->
+
+      <div class="col-lg-5">
+
+        <div class="card shadow-sm h-100">
+
+          <div class="card-header bg-white">
+
+            <h5 class="mb-0 fw-bold">
+              Employees by Department
+            </h5>
+
+          </div>
+
+          <div class="card-body">
+
+            @for (
+              department of departmentStats;
+              track department.name
+            ) {
+
+              <div class="mb-4">
+
+                <div class="d-flex justify-content-between mb-1">
+
+                  <span>
+                    {{ department.name }}
+                  </span>
+
+                  <strong>
+                    {{ department.count }}
+                  </strong>
+
+                </div>
+
+                <div class="progress">
+
+                  <div
+                    class="progress-bar"
+                    role="progressbar"
+                    [style.width.%]="
+                      totalEmployees > 0
+                        ? (department.count / totalEmployees) * 100
+                        : 0
+                    "
+                  ></div>
+
+                </div>
+
+              </div>
+
+            }
+
+            @if (departmentStats.length === 0) {
+
+              <p class="text-muted text-center">
+                No department data available.
+              </p>
+
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Recent Employees -->
+
+      <div class="col-lg-7">
+
+        <div class="card shadow-sm h-100">
+
+          <div
+            class="card-header bg-white d-flex justify-content-between align-items-center"
+          >
+
+            <h5 class="mb-0 fw-bold">
+              Recent Employees
+            </h5>
+
+            <a
+              routerLink="/employees"
+              class="btn btn-sm btn-outline-primary"
+            >
+              View All
+            </a>
+
+          </div>
+
+
+          <div class="card-body p-0">
+
+            <div class="table-responsive">
+
+              <table class="table table-hover mb-0">
+
+                <thead class="table-light">
+
+                  <tr>
+
+                    <th>Employee</th>
+
+                    <th>Department</th>
+
+                    <th>Designation</th>
+
+                    <th>Status</th>
+
+                  </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                  @for (
+                    employee of recentEmployees;
+                    track employee._id
+                  ) {
+
+                    <tr>
+
+                      <td>
+
+                        <div class="d-flex align-items-center">
+
+                          <div class="avatar">
+
+                            {{ employee.firstName?.charAt(0) }}
+
+                          </div>
+
+                          <div class="ms-2">
+
+                            <strong>
+
+                              {{ employee.firstName }}
+                              {{ employee.lastName }}
+
+                            </strong>
+
+                            <small class="d-block text-muted">
+
+                              {{ employee.employeeId }}
+
+                            </small>
+
+                          </div>
+
+                        </div>
+
+                      </td>
+
+
+                      <td>
+
+                        {{ getEmployeeDepartment(
+                          employee.department
+                        ) }}
+
+                      </td>
+
+
+                      <td>
+
+                        {{ getEmployeeDesignation(
+                          employee.designation
+                        ) }}
+
+                      </td>
+
+
+                      <td>
+
+                        <span
+                          class="badge"
+                          [class.bg-success]="
+                            employee.status === 'Active'
+                          "
+                          [class.bg-danger]="
+                            employee.status !== 'Active'
+                          "
+                        >
+
+                          {{ employee.status }}
+
+                        </span>
+
+                      </td>
+
+                    </tr>
+
+                  }
+
+
+                  @if (recentEmployees.length === 0) {
+
+                    <tr>
+
+                      <td
+                        colspan="4"
+                        class="text-center py-4"
+                      >
+
+                        No employees found.
+
+                      </td>
+
+                    </tr>
+
+                  }
+
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Quick Actions -->
+
+    <div class="card shadow-sm mt-4 mb-4">
+
+      <div class="card-body">
+
+        <h5 class="fw-bold mb-3">
+          Quick Actions
+        </h5>
+
+        <div class="row g-3">
+
+          <div class="col-md-4">
+
+            <a
+              routerLink="/employees/add"
+              class="quick-action"
+            >
+
+              <i class="bi bi-person-plus"></i>
+
+              <div>
+
+                <strong>
+                  Add Employee
+                </strong>
+
+                <small>
+                  Create a new employee
+                </small>
+
+              </div>
+
+            </a>
+
+          </div>
+
+
+          <div class="col-md-4">
+
+            <a
+              routerLink="/departments/add"
+              class="quick-action"
+            >
+
+              <i class="bi bi-building-add"></i>
+
+              <div>
+
+                <strong>
+                  Add Department
+                </strong>
+
+                <small>
+                  Create a department
+                </small>
+
+              </div>
+
+            </a>
+
+          </div>
+
+
+          <div class="col-md-4">
+
+            <a
+              routerLink="/designations/add"
+              class="quick-action"
+            >
+
+              <i class="bi bi-person-badge"></i>
+
+              <div>
+
+                <strong>
+                  Add Designation
+                </strong>
+
+                <small>
+                  Create a designation
+                </small>
+
+              </div>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
 
 </div>

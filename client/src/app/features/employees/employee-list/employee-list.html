@@ -1,35 +1,20 @@
 <div class="container-fluid mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2>Employees</h2>
 
-  <div
-    class="d-flex justify-content-between align-items-center mb-3"
-  >
-
-    <h2>
-      Employees
-    </h2>
-
-    <a
-      routerLink="/employees/add"
-      class="btn btn-primary"
-    >
-      <i class="bi bi-plus"></i>
-      Add Employee
+    @if (role === 'admin' || role === 'hr') {
+    <a routerLink="/employees/add" class="btn btn-primary">
+      <i class="bi bi-person-plus"></i> Add Employee
     </a>
-
+    }
   </div>
-
+ 
   <div class="card shadow">
-
     <div class="card-body">
-
       <div class="table-responsive">
-
         <table class="table table-hover">
-
           <thead class="table-dark">
-
             <tr>
-
               <th>Employee ID</th>
               <th>Name</th>
               <th>Email</th>
@@ -39,110 +24,90 @@
               <th>Salary</th>
               <th>Status</th>
               <th>Actions</th>
-
             </tr>
-
           </thead>
 
           <tbody>
+            @for ( employee of employees; track employee._id ) {
 
-            @for (
-              employee of employees;
-              track employee._id
-            ) {
+            <tr>
+              <td>{{ employee.employeeId }}</td>
 
-              <tr>
+              <td>{{ employee.firstName }} {{ employee.lastName }}</td>
 
-                <td>
-                  {{ employee.employeeId }}
-                </td>
+              <td>{{ employee.email }}</td>
 
-                <td>
-                  {{ employee.firstName }}
-                  {{ employee.lastName }}
-                </td>
+              <td>{{ employee.phone }}</td>
 
-                <td>
-                  {{ employee.email }}
-                </td>
+              <td>{{ employee.department?.name }}</td>
 
-                <td>
-                  {{ employee.phone }}
-                </td>
+              <td>{{ employee.designation?.name }}</td>
 
-                <td>
-                  {{ employee.department?.name }}
-                </td>
+              <td>₹{{ employee.salary }}</td>
 
-                <td>
-                  {{ employee.designation?.name }}
-                </td>
-
-                <td>
-                  ₹{{ employee.salary }}
-                </td>
-
-                <td>
-
-                  <span
-                    class="badge"
-                    [class.bg-success]="
+              <td>
+                <span
+                  class="badge"
+                  [class.bg-success]="
                       employee.status === 'Active'
                     "
-                    [class.bg-danger]="
+                  [class.bg-danger]="
                       employee.status !== 'Active'
                     "
-                  >
-                    {{ employee.status }}
-                  </span>
+                >
+                  {{ employee.status }}
+                </span>
+              </td>
 
-                </td>
-
-                <td>
-
-                  <a
-                    [routerLink]="[
+              <td>
+                <a
+                  [routerLink]="[
                       '/employees',
                       employee._id
                     ]"
-                    class="btn btn-sm btn-info me-1"
-                  >
-                    View
-                  </a>
+                  class="btn btn-sm btn-info me-1"
+                >
+                  View
+                </a>
 
-                  <a
-                    [routerLink]="[
-                      '/employees/edit',
-                      employee._id
-                    ]"
-                    class="btn btn-sm btn-warning me-1"
-                  >
-                    Edit
-                  </a>
-
-                  <button
-                    class="btn btn-sm btn-danger"
-                    (click)="
-                      deleteEmployee(employee._id)
-                    "
-                  >
-                    Delete
-                  </button>
-
-                </td>
-
-              </tr>
+                @if ( role === 'admin' || role === 'hr' ) {
+                <a
+                  [routerLink]="[ '/employees/edit', employee._id ]"
+                  class="btn btn-sm btn-warning me-2"
+                >
+                  Edit
+                </a>
+                <button
+                  class="btn btn-sm btn-danger"
+                  (click)="deleteEmployee(employee._id)"
+                >
+                  Delete
+                </button>
+                }
+              </td>
+            </tr>
 
             }
-
           </tbody>
-
         </table>
+        <button
+          class="btn btn-sm btn-secondary"
+          [disabled]="currentPage === 1"
+          (click)="previousPage()"
+        >
+          Previous
+        </button>
 
+        <span class="mx-3"> Page {{ currentPage }} of {{ totalPages }} </span>
+
+        <button
+          class="btn btn-sm btn-secondary"
+          [disabled]="currentPage === totalPages"
+          (click)="nextPage()"
+        >
+          Next
+        </button>
       </div>
-
     </div>
-
   </div>
-
 </div>

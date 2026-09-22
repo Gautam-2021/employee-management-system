@@ -24,7 +24,7 @@ export class Auth {
     return this.http.post<any>(`${this.apiUrl}/login`, data).pipe(
       tap((response) => {
         localStorage.setItem('token', response.token);
-
+        localStorage.setItem('role',response.user.role)
         if (response.user) {
           localStorage.setItem('user', JSON.stringify(response.user));
         }

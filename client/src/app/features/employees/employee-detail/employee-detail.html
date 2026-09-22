@@ -1,1 +1,133 @@
-<p>employee-detail works!</p>
+<div class="container mt-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>Employee Details</h2>
+
+    <a
+      routerLink="/employees"
+      class="btn btn-secondary"
+    >
+      <i class="bi bi-arrow-left"></i>
+      Back
+    </a>
+
+  </div>
+
+  @if (loading) {
+
+    <div class="text-center">
+      <div class="spinner-border"></div>
+    </div>
+
+  } @else if (employee) {
+
+    <div class="card shadow-sm">
+
+      <div class="card-header">
+        <h5 class="mb-0">
+          {{ employee.firstName }} {{ employee.lastName }}
+        </h5>
+      </div>
+
+      <div class="card-body">
+
+        <div class="row">
+
+          <!-- Employee ID -->
+          <div class="col-md-6 mb-3">
+            <strong>Employee ID</strong>
+            <p class="mb-0">
+              {{ employee.employeeId }}
+            </p>
+          </div>
+
+          <!-- Email -->
+          <div class="col-md-6 mb-3">
+            <strong>Email</strong>
+            <p class="mb-0">
+              {{ employee.email }}
+            </p>
+          </div>
+
+          <!-- Phone -->
+          <div class="col-md-6 mb-3">
+            <strong>Phone</strong>
+            <p class="mb-0">
+              {{ employee.phone }}
+            </p>
+          </div>
+
+          <!-- Gender -->
+          <div class="col-md-6 mb-3">
+            <strong>Gender</strong>
+            <p class="mb-0">
+              {{ employee.gender }}
+            </p>
+          </div>
+
+          <!-- Department -->
+          <div class="col-md-6 mb-3">
+            <strong>Department</strong>
+            <p class="mb-0">
+              {{ employee.department?.name }}
+            </p>
+          </div>
+
+          <!-- Designation -->
+          <div class="col-md-6 mb-3">
+            <strong>Designation</strong>
+            <p class="mb-0">
+              {{ employee.designation?.name }}
+            </p>
+          </div>
+
+          <!-- Salary -->
+          <div class="col-md-6 mb-3">
+            <strong>Salary</strong>
+            <p class="mb-0">
+              ₹{{ employee.salary }}
+            </p>
+          </div>
+
+          <!-- Joining Date -->
+          <div class="col-md-6 mb-3">
+            <strong>Joining Date</strong>
+            <p class="mb-0">
+              {{ employee.joiningDate | date }}
+            </p>
+          </div>
+
+          <!-- Employment Type -->
+          <div class="col-md-6 mb-3">
+            <strong>Employment Type</strong>
+            <p class="mb-0">
+              {{ employee.employmentType }}
+            </p>
+          </div>
+
+          <!-- Status -->
+          <div class="col-md-6 mb-3">
+            <strong>Status</strong>
+            <p class="mb-0">
+              {{ employee.status }}
+            </p>
+          </div>
+
+          <!-- Address -->
+          <div class="col-12 mb-3">
+            <strong>Address</strong>
+            <p class="mb-0">
+              {{ employee.address }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

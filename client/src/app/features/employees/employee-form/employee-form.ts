@@ -139,7 +139,7 @@ export class EmployeeForm
       || undefined;
 
     if (this.employeeId) {
-
+       
       this.loadEmployee(
         this.employeeId
       );
@@ -154,9 +154,9 @@ export class EmployeeForm
       .getDepartments()
       .subscribe({
 
-        next: (response) => {
+        next: (response:any) => {
 
-          this.departments = response;
+          this.departments = response.data;
 
         }
 
@@ -170,9 +170,9 @@ export class EmployeeForm
       .getDesignations()
       .subscribe({
 
-        next: (response) => {
+        next: (response:any) => {
 
-          this.designations = response;
+          this.designations = response.data;
 
         }
 
@@ -183,59 +183,60 @@ export class EmployeeForm
   loadEmployee(id: string) {
 
     this.employeeService
-      .getEmployee(id)
+      .getEmployeeById(id)
       .subscribe({
 
-        next: (employee) => {
+        next: (employee:any) => {
+          console.log("emp",employee)
 
           this.employeeForm.patchValue({
 
             employeeId:
-              employee.employeeId,
+              employee.data.employeeId,
 
             firstName:
-              employee.firstName,
+              employee.data.firstName,
 
             lastName:
-              employee.lastName,
+              employee.data.lastName,
 
             email:
-              employee.email,
+              employee.data.email,
 
             phone:
-              employee.phone,
+              employee.data.phone,
 
             gender:
-              employee.gender,
+              employee.data.gender,
 
             dateOfBirth:
-              employee.dateOfBirth?.substring(0, 10),
+              employee.data.dateOfBirth?.substring(0, 10),
 
             address:
-              employee.address,
+              employee.data.address,
 
             department:
-              employee.department?._id ||
-              employee.department,
+              employee.data.department?._id ||
+              employee.data.department,
 
             designation:
-              employee.designation?._id ||
-              employee.designation,
+              employee.data.designation?._id ||
+              employee.data.designation,
 
             salary:
-              employee.salary,
+              employee.data.salary,
 
             joiningDate:
-              employee.joiningDate?.substring(0, 10),
+              employee.data.joiningDate?.substring(0, 10),
 
             employmentType:
-              employee.employmentType,
+              employee.data.employmentType,
 
             status:
-              employee.status,
+              employee.data.status,
 
             profileImage:
-              employee.profileImage
+              employee.data.profileImage
 
           });
 

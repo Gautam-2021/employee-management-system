@@ -8,12 +8,16 @@
       Departments
     </h2>
 
-    <a
+    <!-- <a
       routerLink="/departments/add"
       class="btn btn-primary"
     >
       Add Department
-    </a>
+    </a> -->
+        @if (role === 'admin' || role === 'hr') 
+        { <a routerLink="/departments/add" class="btn btn-primary" >
+           <i class="bi bi-person-plus"></i> Add Department </a> }
+
 
   </div>
 
@@ -55,26 +59,8 @@
 
           <td>
 
-            <a
-              [routerLink]="[
-                '/departments/edit',
-                department._id
-              ]"
-              class="btn btn-warning btn-sm me-2"
-            >
-              Edit
-            </a>
-
-            <button
-              class="btn btn-danger btn-sm"
-              (click)="
-                deleteDepartment(
-                  department._id
-                )
-              "
-            >
-              Delete
-            </button>
+           @if ( role === 'admin' || role === 'hr' )
+            { <a [routerLink]="[ '/departments/edit', department._id ]" class="btn btn-warning btn-sm me-2" > Edit </a> <button class="btn btn-danger btn-sm" (click)=" deleteDepartment(department._id) " > Delete </button> }
 
           </td>
 

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink, Routes } from '@angular/router';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-navbar',
@@ -8,5 +9,18 @@ import { RouterLink } from '@angular/router';
   styleUrl: './navbar.css',
 })
 export class Navbar {
+  loggedIn:boolean=false
+  constructor(private authService: Auth,private router:Router) {}
+  ngOnInit() {
+   this.authService.loggedIn$.subscribe((res)=>{
+    this.loggedIn=res
+   })
+   console.log("loggedin value",this.loggedIn)
+  }
+  logOut() {
+    this.authService.logout();
+       console.log("loggedin value",this.loggedIn)
+       this.router.navigate(['/login'])
 
+  }
 }

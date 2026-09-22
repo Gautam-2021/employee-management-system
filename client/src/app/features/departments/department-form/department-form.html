@@ -1,1 +1,136 @@
-<p>department-form works!</p>
+ 
+<div class="container mt-4">
+
+  <div class="card">
+
+    <div class="card-header bg-dark text-white">
+
+      <h4 class="mb-0">
+        {{ isEditMode ? 'Edit Department' : 'Add Department' }}
+      </h4>
+
+    </div>
+
+    <div class="card-body">
+
+      <form
+        [formGroup]="departmentForm"
+        (ngSubmit)="submit()"
+      >
+
+        <!-- Department Name -->
+
+        <div class="mb-3">
+
+          <label class="form-label">
+            Department Name
+          </label>
+
+          <input
+            type="text"
+            class="form-control"
+            formControlName="name"
+            placeholder="Enter department name"
+          >
+
+          @if (
+            departmentForm.get('name')?.touched &&
+            departmentForm.get('name')?.invalid
+          ) {
+
+            <div class="text-danger mt-1">
+              Department name is required.
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- Description -->
+
+        <div class="mb-3">
+
+          <label class="form-label">
+            Description
+          </label>
+
+          <textarea
+            class="form-control"
+            rows="4"
+            formControlName="description"
+            placeholder="Enter department description"
+          ></textarea>
+
+          @if (
+            departmentForm.get('description')?.touched &&
+            departmentForm.get('description')?.invalid
+          ) {
+
+            <div class="text-danger mt-1">
+              Description is required.
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- Status -->
+
+        <div class="mb-3">
+
+          <label class="form-label">
+            Status
+          </label>
+
+          <select
+            class="form-select"
+            formControlName="status"
+          >
+
+            <option value="Active">
+              Active
+            </option>
+
+            <option value="Inactive">
+              Inactive
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- Buttons -->
+
+        <div class="d-flex gap-2">
+
+          <button
+            type="submit"
+            class="btn btn-primary"
+          >
+
+            {{ isEditMode ? 'Update Department' : 'Add Department' }}
+
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary"
+            (click)="cancel()"
+          >
+
+            Cancel
+
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+</div>
