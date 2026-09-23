@@ -1,52 +1,92 @@
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Employee } from '../../../core/services/employee';
-   import { DatePipe } from '@angular/common';
+import {
+  ActivatedRoute,
+  RouterLink
+} from '@angular/router';
+
+import { CommonModule } from '@angular/common';
+
+import {
+  Employee
+} from '../../../core/services/employee';
+
+
 @Component({
   selector: 'app-employee-detail',
   standalone: true,
-  imports: [RouterLink,DatePipe],
+
+  imports: [
+    CommonModule,
+    RouterLink
+  ],
+
   templateUrl: './employee-detail.html',
   styleUrl: './employee-detail.css'
 })
-export class EmployeeDetail implements OnInit {
+export class EmployeeDetail
+  implements OnInit {
 
   employee: any = null;
-  loading = true;
+
+  loading = false;
+
+  errorMessage = '';
+
+  employeeId = '';
+
 
   constructor(
     private route: ActivatedRoute,
     private employeeService: Employee
   ) {}
 
+
   ngOnInit(): void {
 
-    const id = this.route.snapshot.paramMap.get('id');
+    this.employeeId =
+      this.route.snapshot.paramMap
+        .get('id') || '';
 
-    if (id) {
-      this.loadEmployee(id);
-    }
+    this.loadEmployee();
+
   }
 
-  loadEmployee(id: string): void {
 
-    this.employeeService.getEmployeeById(id).subscribe({
+  loadEmployee(): void {
 
-      next: (response: any) => {
+    this.loading = true;
 
-        this.employee = response.data;
+    this.employeeService
+      .getEmployeeById(this.employeeId)
+      .subscribe({
 
-        this.loading = false;
-      },
+        next: (response: any) => {
 
-      error: (error) => {
+          this.employee =
+            response.data;
 
-        console.error('Employee Details Error:', error);
+          this.loading = false;
 
-        this.loading = false;
-      }
+        },
 
-    });
+        error: (error:any) => {
+
+          console.error(error);
+
+          this.errorMessage =
+            error?.error?.message ||
+            'Employee not found';
+
+          this.loading = false;
+
+        }
+
+      });
+
   }
+
 }

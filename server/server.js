@@ -6,6 +6,7 @@ const authRoutes = require("./routes/auth.routes");
 const employeeRoutes = require("./routes/employee.routes");
 const departmentRoutes = require("./routes/department.routes");
 const designationRoutes = require("./routes/designation.routes");
+const dashboardRoutes = require("./routes/dashboar.routes");
 
 const errorMiddleware = require("./middlewares/error.middleware");
 
@@ -18,10 +19,11 @@ app.use("/api/employees", employeeRoutes);
 app.use("/api/departments", departmentRoutes);
 app.use("/api/designations", designationRoutes);
 
+app.use("/api/dashboard", dashboardRoutes);
 // Error middleware
 app.use(errorMiddleware);
 
 // Start server
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

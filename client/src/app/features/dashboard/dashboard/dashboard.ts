@@ -1,43 +1,39 @@
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 
-import { Component, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import { forkJoin } from 'rxjs';
-
-import { Employee } from '../../../core/services/employee';
-import { Department } from '../../../core/services/department';
-import { Designation } from '../../../core/services/designation';
+import { Dashboard as DashboardService }
+  from '../../../core/services/dashboard';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './dashboard.html',
-  styleUrl: './dashboard.css',
+  styleUrl: './dashboard.css'
 })
 export class Dashboard implements OnInit {
-  role = localStorage.getItem('role');
-
-  employees: any[] = [];
-  departments: any[] = [];
-  designations: any[] = [];
 
   totalEmployees = 0;
-  activeEmployees = 0;
-  inactiveEmployees = 0;
-  totalDepartments = 0;
-  totalDesignations = 0;
 
-  recentEmployees: any[] = [];
+  activeEmployees = 0;
+
+  inactiveEmployees = 0;
 
   departmentStats: any[] = [];
 
-  loading = true;
+  designationStats: any[] = [];
+
+  loading = false;
+
+  errorMessage = '';
+
 
   constructor(
-    private employeeService: Employee,
-    private departmentService: Department,
-    private designationService: Designation
+    private dashboardService: DashboardService
   ) {}
+
 
   ngOnInit(): void {
 
@@ -45,144 +41,57 @@ export class Dashboard implements OnInit {
 
   }
 
+
   loadDashboard(): void {
 
     this.loading = true;
 
-    forkJoin({
+    this.dashboardService
+      .getDashboardStats()
+      .subscribe({
 
-      employees:
-        this.employeeService.getEmployees(),
+        next: (response: any) => {
 
-      departments:
-        this.departmentService.getDepartments(),
+          console.log(
+            'Dashboard:',
+            response
+          );
 
-      designations:
-        this.designationService.getDesignations()
+          const data =
+            response.data;
 
-    }).subscribe({
+          this.totalEmployees =
+            data.totalEmployees;
 
-      next: (response: any) => {
+          this.activeEmployees =
+            data.activeEmployees;
 
-        this.employees =
-          response.employees.data || [];
+          this.inactiveEmployees =
+            data.inactiveEmployees;
 
-        this.departments =
-          response.departments.data || [];
+          this.departmentStats =
+            data.departmentStats;
 
-        this.designations =
-          response.designations.data || [];
+          this.designationStats =
+            data.designationStats;
 
+          this.loading = false;
 
-        // Counts
+        },
 
-        this.totalEmployees =
-          this.employees.length;
+        error: (error) => {
 
-        this.activeEmployees =
-          this.employees.filter(
-            employee =>
-              employee.status === 'Active'
-          ).length;
+          console.error(error);
 
-        this.inactiveEmployees =
-          this.employees.filter(
-            employee =>
-              employee.status !== 'Active'
-          ).length;
+          this.errorMessage =
+            error?.error?.message ||
+            'Unable to load dashboard';
 
-        this.totalDepartments =
-          this.departments.length;
+          this.loading = false;
 
-        this.totalDesignations =
-          this.designations.length;
-
-
-        // Recent employees
-
-        this.recentEmployees =
-          this.employees.slice(0, 5);
-
-
-        // Department statistics
-
-        this.calculateDepartmentStats();
-
-
-        this.loading = false;
-
-      },
-
-      error: (error) => {
-
-        console.error(
-          'Dashboard loading error:',
-          error
-        );
-
-        this.loading = false;
-
-      }
-
-    });
-
-  }
-
-
-  calculateDepartmentStats(): void {
-
-    this.departmentStats =
-      this.departments.map(department => {
-
-        const count =
-          this.employees.filter(
-            employee =>
-              employee.department === department._id
-          ).length;
-
-        return {
-
-          name: department.name,
-
-          count: count
-
-        };
+        }
 
       });
-
-  }
-
-
-  getEmployeeDepartment(
-    departmentId: string
-  ): string {
-
-    const department =
-      this.departments.find(
-        department =>
-          department._id === departmentId
-      );
-
-    return department
-      ? department.name
-      : 'Unknown';
-
-  }
-
-
-  getEmployeeDesignation(
-    designationId: string
-  ): string {
-
-    const designation =
-      this.designations.find(
-        designation =>
-          designation._id === designationId
-      );
-
-    return designation
-      ? designation.name
-      : 'Unknown';
 
   }
 
