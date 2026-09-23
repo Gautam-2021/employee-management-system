@@ -1,0 +1,19 @@
+services:
+
+  backend:
+    build: ./server
+    container_name: employee-backend
+    restart: unless-stopped
+    env_file:
+      - ./server/.env
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build: ./client
+    container_name: employee-frontend
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    depends_on:
+      - backend

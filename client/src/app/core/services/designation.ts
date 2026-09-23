@@ -6,8 +6,8 @@ import { HttpClient } from '@angular/common/http';
 })
 export class Designation  {
 
-  private apiUrl =
-    'http://localhost:3000/api/designations';
+  // private apiUrl = 'http://localhost:3000/api/designations';
+   private apiUrl = '/api/designations';
 
   constructor(private http: HttpClient) {}
 
